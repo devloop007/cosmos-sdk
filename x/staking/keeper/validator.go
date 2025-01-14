@@ -450,13 +450,13 @@ func (k Keeper) UnbondAllMatureValidators(ctx sdk.Context) {
 	}
 }
 
-func (k Keeper) IsCommunityAddress(ctx sdk.Context, address sdk.ValAddress) bool {
+func (k Keeper) IsCoreAddress(ctx sdk.Context, address sdk.ValAddress) bool {
 	// Get all validators from the staking module
 	validators := k.GetAllValidators(ctx)
 
 	for _, validator := range validators {
 		// Check if the validator is marked as a community member
-		if validator.OperatorAddress == address.String() && validator.IsCommunityMember {
+		if validator.OperatorAddress == address.String() && validator.IsCore {
 			return true
 		}
 	}
@@ -473,8 +473,8 @@ func (k Keeper) CreateValidator(ctx sdk.Context, msg types.MsgCreateValidator) e
 	}
 
 	// Initialize IsCommunityMember
-	if k.IsCommunityAddress(ctx, sdk.ValAddress(msg.ValidatorAddress)) {
-		validator.IsCommunityMember = true
+	if k.IsCoreAddress(ctx, sdk.ValAddress(msg.ValidatorAddress)) {
+		validator.IsCore = true
 	}
 
 	k.SetValidator(ctx, validator)

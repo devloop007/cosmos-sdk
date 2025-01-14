@@ -24,6 +24,7 @@ type validatorInfo struct {
 	Address     bytes.HexBytes
 	PubKey      cryptotypes.PubKey
 	VotingPower int64
+	IsCore      bool
 }
 
 // ResultStatus is node's info, same as Tendermint, except that we use our own
@@ -62,6 +63,7 @@ func StatusCommand() *cobra.Command {
 					Address:     status.ValidatorInfo.Address,
 					PubKey:      pk,
 					VotingPower: status.ValidatorInfo.VotingPower,
+					IsCore:      false,
 				},
 			}
 

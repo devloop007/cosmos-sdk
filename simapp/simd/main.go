@@ -7,9 +7,13 @@ import (
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
 	"github.com/cosmos/cosmos-sdk/simapp"
 	"github.com/cosmos/cosmos-sdk/simapp/simd/cmd"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 func main() {
+
+	// setBech32Prefixes()
+
 	rootCmd, _ := cmd.NewRootCmd()
 
 	if err := svrcmd.Execute(rootCmd, simapp.DefaultNodeHome); err != nil {
@@ -21,4 +25,12 @@ func main() {
 			os.Exit(1)
 		}
 	}
+}
+
+func setBech32Prefixes() {
+	config := sdk.GetConfig()
+	config.SetBech32PrefixForAccount("cosmic", "cosmicpub")
+	config.SetBech32PrefixForValidator("cosmicvaloper", "cosmicvaloperpub")
+	config.SetBech32PrefixForConsensusNode("cosmicvalcons", "cosmicvalconspub")
+	config.Seal()
 }

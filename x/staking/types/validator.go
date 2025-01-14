@@ -352,7 +352,7 @@ func (v Validator) ConsensusPower(r sdk.Int) int64 {
 
 	if v.IsBonded() {
 		basePower := v.PotentialConsensusPower(r)
-		if v.IsCommunityMember {
+		if v.IsCore {
 			return basePower * 2
 		} else {
 			cap := int64(50) // Cap for non-community members
