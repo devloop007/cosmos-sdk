@@ -117,6 +117,7 @@ message Validator {
     (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Int",
     (gogoproto.nullable)   = false
   ];
+  bool is_community_member = 12 [(gogoproto.moretags) = "yaml:\"is_community_member\""];
 }
 
 // BondStatus is the status of a validator.

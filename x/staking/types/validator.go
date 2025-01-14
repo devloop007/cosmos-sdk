@@ -349,8 +349,18 @@ func (v Validator) BondedTokens() sdk.Int {
 // ConsensusPower gets the consensus-engine power. Aa reduction of 10^6 from
 // validator tokens is applied
 func (v Validator) ConsensusPower(r sdk.Int) int64 {
+
 	if v.IsBonded() {
-		return v.PotentialConsensusPower(r)
+		basePower := v.PotentialConsensusPower(r)
+		if v.IsCommunityMember {
+			return basePower * 2
+		} else {
+			cap := int64(50) // Cap for non-community members
+			if basePower > cap {
+				return cap
+			}
+			return basePower
+		}
 	}
 
 	return 0

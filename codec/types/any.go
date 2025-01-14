@@ -5,6 +5,7 @@ import (
 
 	"github.com/gogo/protobuf/proto"
 
+	"github.com/cosmos/cosmos-sdk/crypto/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
@@ -50,6 +51,31 @@ type Any struct {
 	cachedValue interface{}
 
 	compat *anyCompat
+}
+
+// Address implements types.PubKey.
+func (any *Any) Address() types.Address {
+	panic("unimplemented")
+}
+
+// Bytes implements types.PubKey.
+func (any *Any) Bytes() []byte {
+	panic("unimplemented")
+}
+
+// Equals implements types.PubKey.
+func (any *Any) Equals(types.PubKey) bool {
+	panic("unimplemented")
+}
+
+// Type implements types.PubKey.
+func (any *Any) Type() string {
+	panic("unimplemented")
+}
+
+// VerifySignature implements types.PubKey.
+func (any *Any) VerifySignature(msg []byte, sig []byte) bool {
+	panic("unimplemented")
 }
 
 // NewAnyWithValue constructs a new Any packed with the value provided or

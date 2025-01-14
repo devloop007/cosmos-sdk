@@ -15,7 +15,7 @@ import (
 )
 
 var (
-	stakeDenom = "stake"
+	stakeDenom = "ucosmic"
 	feeDenom   = "fee"
 )
 
