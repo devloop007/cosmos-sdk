@@ -3281,6 +3281,7 @@ Validator is the type for the validator-set.
 | `pub_key` | [google.protobuf.Any](#google.protobuf.Any) |  |  |
 | `voting_power` | [int64](#int64) |  |  |
 | `proposer_priority` | [int64](#int64) |  |  |
+| `is_core` | [bool](#bool) |  |  |
 
 
 
@@ -6958,6 +6959,7 @@ GenesisState defines the staking module's genesis state.
 | `unbonding_delegations` | [UnbondingDelegation](#cosmos.staking.v1beta1.UnbondingDelegation) | repeated | unbonding_delegations defines the unbonding delegations active at genesis. |
 | `redelegations` | [Redelegation](#cosmos.staking.v1beta1.Redelegation) | repeated | redelegations defines the redelegations active at genesis. |
 | `exported` | [bool](#bool) |  |  |
+| `core_validators` | [string](#string) | repeated |  |
 
 
 

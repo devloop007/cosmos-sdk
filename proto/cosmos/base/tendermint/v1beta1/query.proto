@@ -75,6 +75,7 @@ message Validator {
   google.protobuf.Any pub_key           = 2;
   int64               voting_power      = 3;
   int64               proposer_priority = 4;
+  bool                is_core           = 5;
 }
 
 // GetBlockByHeightRequest is the request type for the Query/GetBlockByHeight RPC method.

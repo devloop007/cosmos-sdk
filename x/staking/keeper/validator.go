@@ -451,16 +451,20 @@ func (k Keeper) UnbondAllMatureValidators(ctx sdk.Context) {
 }
 
 func (k Keeper) IsCoreAddress(ctx sdk.Context, address sdk.ValAddress) bool {
-	// Get all validators from the staking module
-	validators := k.GetAllValidators(ctx)
+	// Fetch core validators from the state
+	coreValidators := k.GetCoreValidators(ctx)
 
-	for _, validator := range validators {
-		// Check if the validator is marked as a community member
-		if validator.OperatorAddress == address.String() && validator.IsCore {
+	fmt.Printf("Core Validators List: %v\n", coreValidators) // Log the fetched core validators list
+
+	// Check if the provided address is in the core validators list
+	for _, coreValidator := range coreValidators {
+		fmt.Printf("Checking core validator: %s against address: %s\n", coreValidator, address.String()) // Log each comparison
+		if coreValidator == address.String() {
+			fmt.Printf("Match found: %s is a core validator\n", address.String()) // Log if a match is found
 			return true
 		}
 	}
-
+	fmt.Printf("No match found: %s is not a core validator\n", address.String()) // Log if no match is found
 	return false
 }
 

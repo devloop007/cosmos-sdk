@@ -38,6 +38,8 @@ message GenesisState {
   repeated Redelegation redelegations = 7 [(gogoproto.nullable) = false];
 
   bool exported = 8;
+
+  repeated string core_validators = 9 [(gogoproto.moretags) = "yaml:\"core_validators\""];
 }
 
 // LastValidatorPower required for validator set update logic.

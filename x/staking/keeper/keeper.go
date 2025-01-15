@@ -5,6 +5,8 @@ import (
 
 	"github.com/tendermint/tendermint/libs/log"
 
+	"encoding/json"
+
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
@@ -25,6 +27,14 @@ type Keeper struct {
 	bankKeeper types.BankKeeper
 	hooks      types.StakingHooks
 	paramstore paramtypes.Subspace
+}
+
+func MarshalToJSON(data interface{}) ([]byte, error) {
+	return json.Marshal(data)
+}
+
+func UnmarshalFromJSON(bz []byte, target interface{}) error {
+	return json.Unmarshal(bz, target)
 }
 
 // NewKeeper creates a new staking Keeper instance
@@ -92,4 +102,22 @@ func (k Keeper) SetLastTotalPower(ctx sdk.Context, power sdk.Int) {
 	store := ctx.KVStore(k.storeKey)
 	bz := k.cdc.MustMarshal(&sdk.IntProto{Int: power})
 	store.Set(types.LastTotalPowerKey, bz)
+}
+
+func (k Keeper) GetCoreValidators(ctx sdk.Context) []string {
+	store := ctx.KVStore(k.storeKey)
+	bz := store.Get([]byte("core_validators"))
+
+	if bz == nil {
+		return []string{}
+	}
+
+	var coreValidators []string
+	// Correct usage of UnmarshalJSON
+	err := UnmarshalFromJSON(bz, &coreValidators)
+	if err != nil {
+		panic(err) // Handle unmarshaling errors
+	}
+
+	return coreValidators
 }

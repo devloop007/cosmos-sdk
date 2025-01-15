@@ -153,6 +153,7 @@ func validatorsOutput(ctx context.Context, cctx client.Context, height *int64, p
 			ProposerPriority: v.ProposerPriority,
 			PubKey:           anyPub,
 			VotingPower:      v.VotingPower,
+			IsCore:           v.IsCore,
 		}
 	}
 	return &resp, nil

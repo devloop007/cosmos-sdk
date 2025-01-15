@@ -22,6 +22,7 @@ func InitGenesis(
 	ctx sdk.Context, keeper keeper.Keeper, accountKeeper types.AccountKeeper,
 	bankKeeper types.BankKeeper, data *types.GenesisState,
 ) (res []abci.ValidatorUpdate) {
+
 	bondedTokens := sdk.ZeroInt()
 	notBondedTokens := sdk.ZeroInt()
 
@@ -36,6 +37,11 @@ func InitGenesis(
 	keeper.SetLastTotalPower(ctx, data.LastTotalPower)
 
 	for _, validator := range data.Validators {
+
+		if isCoreValidator(data.CoreValidators, validator.OperatorAddress, validator.ConsensusPubkey.String()) {
+			validator.IsCore = true
+		}
+
 		keeper.SetValidator(ctx, validator)
 
 		// Manually set indices for the first time
@@ -153,6 +159,15 @@ func InitGenesis(
 	return res
 }
 
+func isCoreValidator(coreValidators []string, operatorAddress string, pubKey string) bool {
+	for _, coreValidator := range coreValidators {
+		if coreValidator == operatorAddress || coreValidator == pubKey {
+			return true
+		}
+	}
+	return false
+}
+
 // ExportGenesis returns a GenesisState for a given context and keeper. The
 // GenesisState will contain the pool, params, validators, and bonds found in
 // the keeper.
@@ -178,6 +193,15 @@ func ExportGenesis(ctx sdk.Context, keeper keeper.Keeper) *types.GenesisState {
 		return false
 	})
 
+	var coreValidators []string
+
+	allValidators := keeper.GetAllValidators(ctx)
+	for _, validator := range allValidators {
+		if validator.IsCore {
+			coreValidators = append(coreValidators, validator.OperatorAddress)
+		}
+	}
+
 	return &types.GenesisState{
 		Params:               keeper.GetParams(ctx),
 		LastTotalPower:       keeper.GetLastTotalPower(ctx),
@@ -187,6 +211,7 @@ func ExportGenesis(ctx sdk.Context, keeper keeper.Keeper) *types.GenesisState {
 		UnbondingDelegations: unbondingDelegations,
 		Redelegations:        redelegations,
 		Exported:             true,
+		CoreValidators:       coreValidators,
 	}
 }
 
@@ -222,7 +247,25 @@ func ValidateGenesis(data *types.GenesisState) error {
 		return err
 	}
 
+	// Validate CoreValidators
+	if err := validateCoreValidators(data.CoreValidators, data.Validators); err != nil {
+		return err
+	}
+
 	return data.Params.Validate()
+}
+
+func validateCoreValidators(coreValidators []string, validators []types.Validator) error {
+	coreMap := make(map[string]bool, len(coreValidators))
+
+	for _, core := range coreValidators {
+		if _, found := coreMap[core]; found {
+			return fmt.Errorf("duplicate core validator in core_validators: %s", core)
+		}
+		coreMap[core] = true
+	}
+
+	return nil
 }
 
 func validateGenesisStateValidators(validators []types.Validator) error {

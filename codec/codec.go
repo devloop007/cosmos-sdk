@@ -96,3 +96,7 @@ type (
 		UnmarshalAminoJSON([]byte) error
 	}
 )
+
+// func (b BinaryCodec) UnmarshalJSON(bz []byte, s *[]string) any {
+// 	panic("unimplemented")
+// }

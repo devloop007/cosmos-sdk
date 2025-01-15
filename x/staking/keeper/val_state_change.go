@@ -12,6 +12,12 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/staking/types"
 )
 
+type ValidatorMetadata struct {
+	IsCore bool
+}
+
+var validatorMetadata = make(map[string]ValidatorMetadata)
+
 // BlockValidatorUpdates calculates the ValidatorUpdates for the current block
 // Called in each EndBlock
 func (k Keeper) BlockValidatorUpdates(ctx sdk.Context) []abci.ValidatorUpdate {
@@ -27,6 +33,22 @@ func (k Keeper) BlockValidatorUpdates(ctx sdk.Context) []abci.ValidatorUpdate {
 	validatorUpdates, err := k.ApplyAndReturnValidatorSetUpdates(ctx)
 	if err != nil {
 		panic(err)
+	}
+
+	for _, update := range validatorUpdates {
+		// Derive the validator address from the public key
+		valAddr := sdk.ValAddress(update.PubKey.String())
+
+		// Get the validator
+		validator, found := k.GetValidator(ctx, valAddr)
+		if !found {
+			continue
+		}
+
+		// Store metadata in the map
+		validatorMetadata[valAddr.String()] = ValidatorMetadata{
+			IsCore: validator.IsCore,
+		}
 	}
 
 	// unbond all mature validators from the unbonding queue

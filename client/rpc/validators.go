@@ -72,6 +72,7 @@ type ValidatorOutput struct {
 	PubKey           cryptotypes.PubKey `json:"pub_key"`
 	ProposerPriority int64              `json:"proposer_priority"`
 	VotingPower      int64              `json:"voting_power"`
+	IsCore           bool               `json:"is_core"`
 }
 
 // Validators at a certain height output in bech32 format
@@ -114,6 +115,7 @@ func validatorOutput(validator *tmtypes.Validator) (ValidatorOutput, error) {
 		PubKey:           pk,
 		ProposerPriority: validator.ProposerPriority,
 		VotingPower:      validator.VotingPower,
+		IsCore:           validator.IsCore,
 	}, nil
 }
 
@@ -185,7 +187,7 @@ func ValidatorSetRequestHandlerFn(clientCtx client.Context) http.HandlerFunc {
 	}
 }
 
-// Latest Validator Set REST handler
+// Latest validatorInfo Set REST handler
 func LatestValidatorSetRequestHandlerFn(clientCtx client.Context) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		_, page, limit, err := rest.ParseHTTPArgsWithLimit(r, 100)

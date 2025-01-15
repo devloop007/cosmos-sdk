@@ -4184,3 +4184,21 @@ BUG FIXES:
 [v0.37.1]: https://github.com/cosmos/cosmos-sdk/releases/tag/v0.37.1
 [v0.37.0]: https://github.com/cosmos/cosmos-sdk/releases/tag/v0.37.0
 [v0.36.0]: https://github.com/cosmos/cosmos-sdk/releases/tag/v0.36.0
+
+
+## [Unreleased]
+
+### **Added**
+- Introduced `core_validators` in the genesis state to define a list of core validators.
+- Implemented the `IsCoreAddress` function to determine if a validator is marked as core.
+- Added support for dynamic retrieval and marking of core validators during genesis initialization and validator creation.
+- Enhanced the `/validators` API endpoint to include the `is_core` field for better visibility.
+- Added logging to debug core validator functionality during execution.
+
+### **Changed**
+- Updated the Keeper to include methods for fetching and storing `core_validators` in the application state.
+- Modified the staking module to check and dynamically assign the `is_core` field based on the genesis or application state.
+
+### **Fixed**
+- Resolved issues where validators were not properly marked as core during genesis initialization.
+- Addressed compatibility concerns in Keeper methods that could affect dependent modules.

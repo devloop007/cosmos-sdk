@@ -63,7 +63,7 @@ func StatusCommand() *cobra.Command {
 					Address:     status.ValidatorInfo.Address,
 					PubKey:      pk,
 					VotingPower: status.ValidatorInfo.VotingPower,
-					IsCore:      false,
+					IsCore:      true,
 				},
 			}
 
