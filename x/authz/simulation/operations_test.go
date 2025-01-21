@@ -70,7 +70,7 @@ func (suite *SimTestSuite) getTestingAccounts(r *rand.Rand, n int) []simtypes.Ac
 	accounts := simtypes.RandomAccounts(r, n)
 
 	initAmt := suite.app.StakingKeeper.TokensFromConsensusPower(suite.ctx, 200000)
-	initCoins := sdk.NewCoins(sdk.NewCoin("stake", initAmt))
+	initCoins := sdk.NewCoins(sdk.NewCoin("ncosmic", initAmt))
 
 	// add coins to the accounts
 	for _, account := range accounts {
@@ -128,7 +128,7 @@ func (suite *SimTestSuite) TestSimulateRevoke() {
 	})
 
 	initAmt := suite.app.StakingKeeper.TokensFromConsensusPower(suite.ctx, 200000)
-	initCoins := sdk.NewCoins(sdk.NewCoin("stake", initAmt))
+	initCoins := sdk.NewCoins(sdk.NewCoin("ncosmic", initAmt))
 
 	granter := accounts[0]
 	grantee := accounts[1]
@@ -162,7 +162,7 @@ func (suite *SimTestSuite) TestSimulateExec() {
 	suite.app.BeginBlock(abci.RequestBeginBlock{Header: tmproto.Header{Height: suite.app.LastBlockHeight() + 1, AppHash: suite.app.LastCommitID().Hash}})
 
 	initAmt := suite.app.StakingKeeper.TokensFromConsensusPower(suite.ctx, 200000)
-	initCoins := sdk.NewCoins(sdk.NewCoin("stake", initAmt))
+	initCoins := sdk.NewCoins(sdk.NewCoin("ncosmic", initAmt))
 
 	granter := accounts[0]
 	grantee := accounts[1]

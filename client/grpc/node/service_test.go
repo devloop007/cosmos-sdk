@@ -13,7 +13,7 @@ import (
 func TestServiceServer_Config(t *testing.T) {
 	svr := NewQueryServer(client.Context{})
 	ctx := sdk.Context{}.
-		WithMinGasPrices(sdk.NewDecCoins(sdk.NewInt64DecCoin("stake", 15))).
+		WithMinGasPrices(sdk.NewDecCoins(sdk.NewInt64DecCoin("ncosmic", 15))).
 		WithContext(context.Background())
 	goCtx := sdk.WrapSDKContext(ctx)
 

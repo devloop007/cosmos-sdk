@@ -128,7 +128,7 @@ func (s *IntegrationTestSuite) TestGetCmdQueryValidatorOutstandingRewards() {
 				fmt.Sprintf("--%s=json", tmcli.OutputFlag),
 			},
 			false,
-			`{"rewards":[{"denom":"stake","amount":"1164.240000000000000000"}]}`,
+			`{"rewards":[{"denom":"ncosmic","amount":"1164.240000000000000000"}]}`,
 		},
 		{
 			"text output",
@@ -191,7 +191,7 @@ func (s *IntegrationTestSuite) TestGetCmdQueryValidatorCommission() {
 				fmt.Sprintf("--%s=json", tmcli.OutputFlag),
 			},
 			false,
-			`{"commission":[{"denom":"stake","amount":"464.520000000000000000"}]}`,
+			`{"commission":[{"denom":"ncosmic","amount":"464.520000000000000000"}]}`,
 		},
 		{
 			"text output",
@@ -344,7 +344,7 @@ func (s *IntegrationTestSuite) TestGetCmdQueryDelegatorRewards() {
 				fmt.Sprintf("--%s=json", tmcli.OutputFlag),
 			},
 			false,
-			fmt.Sprintf(`{"rewards":[{"validator_address":"%s","reward":[{"denom":"stake","amount":"387.100000000000000000"}]}],"total":[{"denom":"stake","amount":"387.100000000000000000"}]}`, valAddr.String()),
+			fmt.Sprintf(`{"rewards":[{"validator_address":"%s","reward":[{"denom":"ncosmic","amount":"387.100000000000000000"}]}],"total":[{"denom":"ncosmic","amount":"387.100000000000000000"}]}`, valAddr.String()),
 		},
 		{
 			"json output (specific validator)",
@@ -354,7 +354,7 @@ func (s *IntegrationTestSuite) TestGetCmdQueryDelegatorRewards() {
 				fmt.Sprintf("--%s=json", tmcli.OutputFlag),
 			},
 			false,
-			`{"rewards":[{"denom":"stake","amount":"387.100000000000000000"}]}`,
+			`{"rewards":[{"denom":"ncosmic","amount":"387.100000000000000000"}]}`,
 		},
 		{
 			"text output",
@@ -419,7 +419,7 @@ func (s *IntegrationTestSuite) TestGetCmdQueryCommunityPool() {
 		{
 			"json output",
 			[]string{fmt.Sprintf("--%s=3", flags.FlagHeight), fmt.Sprintf("--%s=json", tmcli.OutputFlag)},
-			`{"pool":[{"denom":"stake","amount":"4.740000000000000000"}]}`,
+			`{"pool":[{"denom":"ncosmic","amount":"4.740000000000000000"}]}`,
 		},
 		{
 			"text output",

@@ -352,10 +352,10 @@ func (s *decCoinTestSuite) TestParseDecCoins() {
 		expectedErr    bool
 	}{
 		{"", nil, false},
-		{"4stake", sdk.DecCoins{sdk.NewDecCoinFromDec("stake", sdk.NewDecFromInt(sdk.NewInt(4)))}, false},
+		{"4stake", sdk.DecCoins{sdk.NewDecCoinFromDec("ncosmic", sdk.NewDecFromInt(sdk.NewInt(4)))}, false},
 		{"5.5atom,4stake", sdk.DecCoins{
 			sdk.NewDecCoinFromDec("atom", sdk.NewDecWithPrec(5500000000000000000, sdk.Precision)),
-			sdk.NewDecCoinFromDec("stake", sdk.NewDec(4)),
+			sdk.NewDecCoinFromDec("ncosmic", sdk.NewDec(4)),
 		}, false},
 		{"0.0stake", sdk.DecCoins{}, false}, // remove zero coins
 		{"10.0btc,1.0atom,20.0btc", nil, true},
@@ -366,14 +366,14 @@ func (s *decCoinTestSuite) TestParseDecCoins() {
 		},
 		{
 			"0.004stake",
-			sdk.DecCoins{sdk.NewDecCoinFromDec("stake", sdk.NewDecWithPrec(4000000000000000, sdk.Precision))},
+			sdk.DecCoins{sdk.NewDecCoinFromDec("ncosmic", sdk.NewDecWithPrec(4000000000000000, sdk.Precision))},
 			false,
 		},
 		{
 			"5.04atom,0.004stake",
 			sdk.DecCoins{
 				sdk.NewDecCoinFromDec("atom", sdk.NewDecWithPrec(5040000000000000000, sdk.Precision)),
-				sdk.NewDecCoinFromDec("stake", sdk.NewDecWithPrec(4000000000000000, sdk.Precision)),
+				sdk.NewDecCoinFromDec("ncosmic", sdk.NewDecWithPrec(4000000000000000, sdk.Precision)),
 			},
 			false,
 		},
@@ -381,7 +381,7 @@ func (s *decCoinTestSuite) TestParseDecCoins() {
 			"0.0stake,0.004stake,5.04atom", // remove zero coins
 			sdk.DecCoins{
 				sdk.NewDecCoinFromDec("atom", sdk.NewDecWithPrec(5040000000000000000, sdk.Precision)),
-				sdk.NewDecCoinFromDec("stake", sdk.NewDecWithPrec(4000000000000000, sdk.Precision)),
+				sdk.NewDecCoinFromDec("ncosmic", sdk.NewDecWithPrec(4000000000000000, sdk.Precision)),
 			},
 			false,
 		},
@@ -407,7 +407,7 @@ func (s *decCoinTestSuite) TestDecCoinsString() {
 		{
 			sdk.DecCoins{
 				sdk.NewDecCoinFromDec("atom", sdk.NewDecWithPrec(5040000000000000000, sdk.Precision)),
-				sdk.NewDecCoinFromDec("stake", sdk.NewDecWithPrec(4000000000000000, sdk.Precision)),
+				sdk.NewDecCoinFromDec("ncosmic", sdk.NewDecWithPrec(4000000000000000, sdk.Precision)),
 			},
 			"5.040000000000000000atom,0.004000000000000000stake",
 		},

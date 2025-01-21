@@ -24,7 +24,7 @@ func TestMigrate(t *testing.T) {
 		WithLegacyAmino(encodingConfig.Amino).
 		WithJSONCodec(encodingConfig.Marshaler)
 
-	coins := sdk.NewCoins(sdk.NewInt64Coin("stake", 50))
+	coins := sdk.NewCoins(sdk.NewInt64Coin("ncosmic", 50))
 
 	// BaseAccount
 	pk1 := secp256k1.GenPrivKeyFromSecret([]byte("acc1")).PubKey()
@@ -125,20 +125,20 @@ func TestMigrate(t *testing.T) {
       "delegated_free": [
         {
           "amount": "50",
-          "denom": "stake"
+          "denom": "ncosmic"
         }
       ],
       "delegated_vesting": [
         {
           "amount": "50",
-          "denom": "stake"
+          "denom": "ncosmic"
         }
       ],
       "end_time": "1580309973",
       "original_vesting": [
         {
           "amount": "50",
-          "denom": "stake"
+          "denom": "ncosmic"
         }
       ]
     },
@@ -160,7 +160,7 @@ func TestMigrate(t *testing.T) {
         "original_vesting": [
           {
             "amount": "50",
-            "denom": "stake"
+            "denom": "ncosmic"
           }
         ]
       },
@@ -184,7 +184,7 @@ func TestMigrate(t *testing.T) {
         "original_vesting": [
           {
             "amount": "50",
-            "denom": "stake"
+            "denom": "ncosmic"
           }
         ]
       },
@@ -194,7 +194,7 @@ func TestMigrate(t *testing.T) {
           "amount": [
             {
               "amount": "50",
-              "denom": "stake"
+              "denom": "ncosmic"
             }
           ],
           "length": "32"
@@ -219,7 +219,7 @@ func TestMigrate(t *testing.T) {
         "original_vesting": [
           {
             "amount": "50",
-            "denom": "stake"
+            "denom": "ncosmic"
           }
         ]
       }

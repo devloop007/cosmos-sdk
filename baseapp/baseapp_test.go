@@ -133,7 +133,7 @@ func testLoadVersionHelper(t *testing.T, app *BaseApp, expectedHeight int64, exp
 }
 
 func TestSetMinGasPrices(t *testing.T) {
-	minGasPrices := sdk.DecCoins{sdk.NewInt64DecCoin("stake", 5000)}
+	minGasPrices := sdk.DecCoins{sdk.NewInt64DecCoin("ncosmic", 5000)}
 	app := newBaseApp(t.Name(), SetMinGasPrices(minGasPrices.String()))
 	require.Equal(t, minGasPrices, app.minGasPrices)
 }
