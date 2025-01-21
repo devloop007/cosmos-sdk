@@ -72,7 +72,7 @@ type ValidatorOutput struct {
 	PubKey           cryptotypes.PubKey `json:"pub_key"`
 	ProposerPriority int64              `json:"proposer_priority"`
 	VotingPower      int64              `json:"voting_power"`
-	IsCore           bool               `json:"is_core"`
+	// IsCore           bool               `json:"is_core"`
 }
 
 // Validators at a certain height output in bech32 format

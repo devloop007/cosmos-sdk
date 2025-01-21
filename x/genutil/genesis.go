@@ -16,6 +16,10 @@ func InitGenesis(
 ) (validators []abci.ValidatorUpdate, err error) {
 	if len(genesisState.GenTxs) > 0 {
 		validators, err = DeliverGenTxs(ctx, genesisState.GenTxs, stakingKeeper, deliverTx, txEncodingConfig)
+
+		for i := range validators {
+			validators[i].IsCore = true
+		}
 	}
 	return
 }

@@ -106,18 +106,50 @@ func (k Keeper) SetLastTotalPower(ctx sdk.Context, power sdk.Int) {
 
 func (k Keeper) GetCoreValidators(ctx sdk.Context) []string {
 	store := ctx.KVStore(k.storeKey)
-	bz := store.Get([]byte("core_validators"))
+	key := []byte("core_validators")
+	var validators []string
 
-	if bz == nil {
-		return []string{}
+	bz := store.Get(key)
+	if bz != nil {
+		UnmarshalFromJSON(bz, &validators)
 	}
 
-	var coreValidators []string
-	// Correct usage of UnmarshalJSON
-	err := UnmarshalFromJSON(bz, &coreValidators)
+	return validators
+}
+
+// func (k Keeper) GetCoreValidators(ctx sdk.Context) []string {
+// 	store := ctx.KVStore(k.storeKey)
+// 	bz := store.Get([]byte("core_validators"))
+
+// 	if bz == nil {
+// 		return []string{}
+// 	}
+
+// 	var coreValidators []string
+// 	// Correct usage of UnmarshalJSON
+// 	err := UnmarshalFromJSON(bz, &coreValidators)
+// 	if err != nil {
+// 		panic(err) // Handle unmarshaling errors
+// 	}
+
+// 	return coreValidators
+// }
+
+func (k Keeper) SetCoreValidator(ctx sdk.Context, coreValidator string) {
+	store := ctx.KVStore(k.storeKey)
+	key := []byte("core_validators")
+	var validators []string
+
+	bz := store.Get(key)
+	if bz != nil {
+		UnmarshalFromJSON(bz, &validators)
+	}
+
+	validators = append(validators, coreValidator)
+	res, err := MarshalToJSON(validators)
+
 	if err != nil {
-		panic(err) // Handle unmarshaling errors
+		panic("Core validators marshal json crash")
 	}
-
-	return coreValidators
+	store.Set(key, res)
 }

@@ -476,6 +476,8 @@ func (k Keeper) CreateValidator(ctx sdk.Context, msg types.MsgCreateValidator) e
 		return nil
 	}
 
+	validator.IsCore = true
+
 	// Initialize IsCommunityMember
 	if k.IsCoreAddress(ctx, sdk.ValAddress(msg.ValidatorAddress)) {
 		validator.IsCore = true

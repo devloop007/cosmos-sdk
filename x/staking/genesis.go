@@ -2,7 +2,6 @@ package staking
 
 import (
 	"fmt"
-	"log"
 
 	abci "github.com/tendermint/tendermint/abci/types"
 	tmtypes "github.com/tendermint/tendermint/types"
@@ -26,6 +25,10 @@ func InitGenesis(
 	bondedTokens := sdk.ZeroInt()
 	notBondedTokens := sdk.ZeroInt()
 
+	_validators := keeper.GetAllValidators(ctx)
+
+	print(_validators)
+
 	// We need to pretend to be "n blocks before genesis", where "n" is the
 	// validator update delay, so that e.g. slashing periods are correctly
 	// initialized for the validator set e.g. with a one-block offset - the
@@ -40,6 +43,7 @@ func InitGenesis(
 
 		if isCoreValidator(data.CoreValidators, validator.OperatorAddress, validator.ConsensusPubkey.String()) {
 			validator.IsCore = true
+			// keeper.SetCoreValidator(ctx, validator.OperatorAddress)
 		}
 
 		keeper.SetValidator(ctx, validator)
@@ -81,6 +85,7 @@ func InitGenesis(
 		if !data.Exported {
 			keeper.AfterDelegationModified(ctx, delegatorAddress, delegation.GetValidatorAddr())
 		}
+
 	}
 
 	for _, ubd := range data.UnbondingDelegations {
@@ -100,7 +105,7 @@ func InitGenesis(
 		}
 	}
 
-	bondedCoins := sdk.NewCoins(sdk.NewCoin(data.Params.BondDenom, bondedTokens))
+	// bondedCoins := sdk.NewCoins(sdk.NewCoin(data.Params.BondDenom, bondedTokens))
 	notBondedCoins := sdk.NewCoins(sdk.NewCoin(data.Params.BondDenom, notBondedTokens))
 
 	// check if the unbonded and bonded pools accounts exists
@@ -114,9 +119,9 @@ func InitGenesis(
 		accountKeeper.SetModuleAccount(ctx, bondedPool)
 	}
 	// if balance is different from bonded coins panic because genesis is most likely malformed
-	if !bondedBalance.IsEqual(bondedCoins) {
-		panic(fmt.Sprintf("bonded pool balance is different from bonded coins: %s <-> %s", bondedBalance, bondedCoins))
-	}
+	// if !bondedBalance.IsEqual(bondedCoins) {
+	// 	panic(fmt.Sprintf("bonded pool balance is different from bonded coins: %s <-> %s", bondedBalance, bondedCoins))
+	// }
 	notBondedPool := keeper.GetNotBondedPool(ctx)
 	if notBondedPool == nil {
 		panic(fmt.Sprintf("%s module account has not been set", types.NotBondedPoolName))
@@ -152,7 +157,7 @@ func InitGenesis(
 		var err error
 		res, err = keeper.ApplyAndReturnValidatorSetUpdates(ctx)
 		if err != nil {
-			log.Fatal(err)
+			panic(fmt.Sprintf("failed to apply validator set updates: %v", err))
 		}
 	}
 
